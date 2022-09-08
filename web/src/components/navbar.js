@@ -1,4 +1,7 @@
+import { NavLink  } from 'react-router-dom';
+
 function navbar() {
+
     return (
         <nav id="sidebarMenu" className="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
             <div className="position-sticky pt-3 sidebar-sticky">
@@ -10,10 +13,10 @@ function navbar() {
                         </a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
+                        <NavLink  className="nav-link"to="/ClienteMaiorCompra">
                             <span data-feather="file" className="align-text-bottom"></span>
                             Cliente com Maior Compra
-                        </a>
+                        </NavLink >
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#">

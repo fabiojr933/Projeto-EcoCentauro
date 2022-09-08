@@ -1,8 +1,8 @@
-
+import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Header from '../components/header';
-import Home from '../components/home';
 import { Chart } from "react-google-charts";
+import moment from 'moment';
 
 export const data = [
     ["Year", "Sales", "Expenses", "Profit"],
@@ -14,6 +14,41 @@ export const data = [
 
 
 function clienteMaiorCompra() {
+/*
+    const [dataInicial, setDataIncial] = useState('');
+    const [dataFinal, setDataFinal] = useState('');
+    const [qtde, setRegistros] = useState('');
+    const [empresa, setEmpresa] = useState('');
+
+    */
+
+    async function Carregar() {
+
+        /*
+        try {
+            var data = {
+                description: description,
+                title: title,
+                alarm: alarm
+            }
+            var config = {
+                method: 'POST',
+                url: api.base_url + '/task',                
+                data: data
+            }
+
+            try {
+                const response = await axios(config);
+                if (response.status == 201) {
+                    history.push('/home');
+                }
+        
+        } catch (error) {
+
+        }
+        */
+    }
+
     return (
         <>
             <div className="container-fluid">
@@ -38,7 +73,7 @@ function clienteMaiorCompra() {
                                         <input type="number" value='15' class="form-control" placeholder='Trazer quandos registros? ' />
                                     </div>
                                 </div><br />
-                                <button type="submit" class="btn btn-primary">Carregar....</button>
+                                <button type="submit" class="btn btn-primary">Carregar</button>
                             </form>
 
                             <br />

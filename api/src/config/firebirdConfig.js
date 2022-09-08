@@ -1,5 +1,5 @@
 const Config = {
-    database: "C:\\ecosis\\dados\\ecodados.eco",
+    database: "C:\\ecosis\\dados\\CasaForte\\ecodados.eco",
     host: '127.0.0.1',
     port: 3050,
     user: 'SYSDBA',
@@ -13,21 +13,3 @@ const Config = {
 
 module.exports = Config;
 
-/*
-module.exports = Config => {
-
-    var options = {};
-
-    options.host = '127.0.0.1';
-    options.port = 3050;
-    options.database = "C:\\ecosis\\dados\\ecodados.eco";
-    options.user = 'SYSDBA';
-    options.password = 'masterkey';
-    options.lowercase_keys = false; // set to true to lowercase keys
-    options.role = null;            // default
-    options.pageSize = 4096;        // default when creating database
-    options.pageSize = 4096;        // default when creating database
-    options.retryConnectionInterval = 1000; // reconnect interval in case of connection drop
-}
-
-*/

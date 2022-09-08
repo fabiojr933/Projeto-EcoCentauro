@@ -7,6 +7,7 @@ const Login = new LoginController();
 const Grafico = new GraficoController();
 
 route.post('/login', Login.login);
+route.get('/empresa', Login.listaEmpresa);
 
 route.post('/clienteMaiorCompra', Grafico.clienteMaiorCompra);
 route.post('/produtoMaiorSaida', Grafico.produtoMaiorSaida);
