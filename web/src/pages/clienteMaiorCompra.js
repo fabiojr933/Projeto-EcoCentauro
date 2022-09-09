@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Navbar from '../components/navbar';
 import Header from '../components/header';
 import { Chart } from "react-google-charts";
-import moment from 'moment';
+import axios from "axios";
+import api from '../services/api';
 
 export const data = [
     ["Year", "Sales", "Expenses", "Profit"],
@@ -13,40 +14,46 @@ export const data = [
 ];
 
 
-function clienteMaiorCompra() {
-/*
-    const [dataInicial, setDataIncial] = useState('');
-    const [dataFinal, setDataFinal] = useState('');
-    const [qtde, setRegistros] = useState('');
-    const [empresa, setEmpresa] = useState('');
+function ClienteMaiorCompra() {
 
-    */
+    const [dataInicial, setDataInicial] = useState(null);
+    const [dataFinal, setDataFinal] = useState(null);
+    const [qtde, setRegistros] = useState(null);
+    const [dataGrafico, setDataGrafico] = useState([]);
 
-    async function Carregar() {
 
-        /*
+    async function Carregar(event) {
+        event.preventDefault();
+        var usuario = localStorage.getItem('usuario');
+        var empresa = JSON.parse(usuario).empresa;
+
         try {
             var data = {
-                description: description,
-                title: title,
-                alarm: alarm
+                'dataInicial': dataInicial,
+                'dataFinal': dataFinal,
+                'qtde': qtde,
+                'empresa': empresa
             }
             var config = {
                 method: 'POST',
-                url: api.base_url + '/task',                
+                url: api.base_url + '/clienteMaiorCompra',
                 data: data
+            }           
+            const resposta = await axios(config);
+            var dados = [];
+            if (resposta.status == 200) {
+                resposta.data.map((v) => {
+                    dados.push({ 'CLIENTE': v.CLIENTE, 'VALOR': v.VALOR });
+                });
+                JSON.parse(dados);
+                setDataGrafico()
+                console.log(dados);
             }
 
-            try {
-                const response = await axios(config);
-                if (response.status == 201) {
-                    history.push('/home');
-                }
-        
         } catch (error) {
 
         }
-        */
+
     }
 
     return (
@@ -58,19 +65,19 @@ function clienteMaiorCompra() {
                         <Navbar />
                         <div className="table-responsive">
 
-                            <form>
+                            <form onSubmit={Carregar}>
                                 <div className="row">
                                     <div className="col">
                                         <label class="form-label">Data Inicial</label>
-                                        <input type="date" class="form-control" />
+                                        <input type="date" class="form-control" name="dataInicial" onChange={(e) => { setDataInicial(e.target.value) }} required />
                                     </div>
                                     <div className="col">
                                         <label class="form-label">Data Final</label>
-                                        <input type="date" class="form-control" />
+                                        <input type="date" class="form-control" name="dataFinal" onChange={(e) => { setDataFinal(e.target.value) }} required />
                                     </div>
                                     <div className="col">
                                         <label class="form-label">Trazer quandos registros?</label>
-                                        <input type="number" value='15' class="form-control" placeholder='Trazer quandos registros? ' />
+                                        <input type="number" class="form-control" placeholder='Trazer quandos registros? ' required name="qtde" onChange={(e) => { setRegistros(e.target.value) }} />
                                     </div>
                                 </div><br />
                                 <button type="submit" class="btn btn-primary">Carregar</button>
@@ -78,10 +85,10 @@ function clienteMaiorCompra() {
 
                             <br />
                             <Chart
-                                chartType="Bar"
+                                chartType="PieChart"
                                 width="100%"
                                 height="400px"
-                                data={data}
+                                data={dataGrafico}
                             />
                         </div>
                     </main>
@@ -90,4 +97,4 @@ function clienteMaiorCompra() {
         </>
     )
 }
-export default clienteMaiorCompra;
+export default ClienteMaiorCompra;

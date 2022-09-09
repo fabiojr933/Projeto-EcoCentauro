@@ -25,8 +25,19 @@ class loginController {
                 db.query(` select A.usuario, A.senha
                         FROM tgerusuario A
                         WHERE A.usuario = '${nome}'`, async (err, result) => {
+                    if (err) {
+                        return res.status(400).json({
+                            error: 'Não foi encontro nehum registro',
+                            paramentos: 'SQL login'
+                        });
+                    }
                     db.detach();
-                    var user = result[0].USUARIO.toString();
+                    if (result === [] || result.length === 0 || result == undefined) {
+                        return res.status(400).json({
+                            error: 'Não foi encontro nehum registro',
+                            paramentos: 'SQL login'
+                        });
+                    }
                     var pass = result[0].SENHA.toString();
                     if (pass === sha1(nome + senha)) {
                         var data = {
