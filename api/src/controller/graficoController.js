@@ -43,10 +43,19 @@ class graficoController {
                     NAT.GERAESTATISTICA = 'S' and
                     VDA.GERAFINANCEIRO = 'S'
                     AND NOT CLG.nome containing  'CONSUMIDOR'
-                    group BY 1,2  ORDER BY VALOR DESC`, async (err, result) => {
+                    group BY 1,2 ORDER BY VALOR desc`, async (err, result) => {
                     db.detach();
+
+                    if (result === [] || result.length === 0 || result == undefined) {
+                        return res.status(400).json({
+                            error: 'Não foi encontro nehum registro',
+                            paramentos: 'SQL clienteMaiorCompra'
+                        });
+                    }
+
+
                     result.forEach(v => {
-                        resultado.unshift({ 'CODIGO': v.CODIGO.toString(), 'CLIENTE': v.CLIENTE.toString(), 'VALOR': v.VALOR.toString() });
+                        resultado.unshift({ 'CODIGO': v.CODIGO.toString(), 'CLIENTE': v.CLIENTE.toString(), 'VALOR': Number(v.VALOR.toString()) });
 
                     });
                     res.status(200).json(resultado)
@@ -125,10 +134,18 @@ class graficoController {
            order by QUANTIDADE DESC
             `, async (err, result) => {
                     db.detach();
+
+                    if (result === [] || result.length === 0 || result == undefined) {
+                        return res.status(400).json({
+                            error: 'Não foi encontro nehum registro',
+                            paramentos: 'SQL produto mairo saida'
+                        });
+                    }
+
                     result.forEach(v => {
                         resultado.unshift({
-                            'CODIGO': v.CODPRO.toString(), 'PRODUTO': v.DESCPRO.toString(), 'QUANTIDADE': v.QUANTIDADE.toString(),
-                            'VALOR': v.VLRLIQUIDO.toString(), 'LUCRO': v.LUCROLIQUIDOOBTIDO.toString()
+                            'CODIGO': v.CODPRO.toString(), 'PRODUTO': v.DESCPRO.toString(), 'QUANTIDADE': Number(v.QUANTIDADE.toString()),
+                            'VALOR': Number(v.VLRLIQUIDO.toString()), 'LUCRO': Number(v.LUCROLIQUIDOOBTIDO.toString())
                         });
 
                     });
@@ -189,8 +206,61 @@ class graficoController {
                         PED.GERAFINANCEIRO = 'S'   
                         group BY 1`, async (err, result) => {
                     db.detach();
+
+                    if (result === [] || result.length === 0 || result == undefined) {
+                        return res.status(400).json({
+                            error: 'Não foi encontro nehum registro',
+                            paramentos: 'SQL vendasPorVendedor'
+                        });
+                    }
+
                     result.forEach(v => {
-                        resultado.unshift({ 'VENDEDOR': v.VENDEDOR.toString(), 'VLRLIQUIDO': v.VLRLIQUIDO.toString(), 'DESCONTO': v.DESCONTO.toString() });
+                        resultado.unshift({ 'VENDEDOR': v.VENDEDOR.toString(), 'VLRLIQUIDO': Number(v.VLRLIQUIDO.toString()), 'DESCONTO': Number(v.DESCONTO.toString()) });
+
+                    });
+                    res.status(200).json(resultado)
+                });
+
+            });
+        } catch (error) {
+            return res.status(400).json({
+                error: 'Erro ao executar SQL',
+                paramentos: 'SQL vendasPorVendedor'
+            });
+        }
+    }
+
+    async listaCentroCusto(req, res) {
+        try {
+            var empresa = req.body.empresa;
+           
+            if (empresa == undefined) {
+                return res.status(400).json({
+                    error: 'Os paramentos são obrigatorios!!',
+                    paramentos: 'Codigo da empresa'
+                });
+            }
+
+            var resultado = [];
+            Firebird.attach(firebirdConfig, async function (err, db) {
+                if (err)
+                    return res.status(400).json({
+                        error: 'Erro ao executar SQL',
+                        paramentos: 'SQL listaCentroCusto'
+                    });
+
+                await db.query(`select a.codigocc, a.descricao2 AS CENTROCUSTO from TGERCENTROCUSTO a  where a.empresa = '${empresa}' and a.ativa = 'S' and a.tipo = 'A'`, async (err, result) => {
+                    db.detach();
+
+                    if (result === [] || result.length === 0 || result == undefined) {
+                        return res.status(400).json({
+                            error: 'Não foi encontro nehum registro',
+                            paramentos: 'SQL listaCentroCusto'
+                        });
+                    }
+
+                    result.forEach(v => {
+                        resultado.unshift({'CODIGOCC': v.CODIGOCC.toString(), 'CENTROCUSTO': v.CENTROCUSTO.toString() });
 
                     });
                     res.status(200).json(resultado)

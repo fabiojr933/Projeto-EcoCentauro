@@ -8,16 +8,16 @@ import { toast } from 'react-toastify';
 
 
 export const options = {
-    title: "Cliente maior compra",
+    title: "Vendas Por Vendedor",
     is3D: true,
 };
 export const options2 = {
     chart: {
-        title: "Cliente maior compra",
+        title: "Vendas Por Vendedor",
     },
 };
 
-function ClienteMaiorCompra() {
+function VendasPorVendedor() {
 
     const [dataInicial, setDataInicial] = useState(null);
     const [dataFinal, setDataFinal] = useState(null);
@@ -31,7 +31,7 @@ function ClienteMaiorCompra() {
     useEffect(() => {
         async function load() {
             var semDados = [
-                ['Cliente', 'Valor']
+                ['Vendedor', 'Valor']
                 ['Sem dados', 0.00],
             ]
             setDataGrafico(semDados);
@@ -51,24 +51,22 @@ function ClienteMaiorCompra() {
             var data = {
                 'dataInicial': dataInicial,
                 'dataFinal': dataFinal,
-                'qtde': qtde,
                 'empresa': empresa
             }
             var config = {
                 method: 'POST',
-                url: api.base_url + '/clienteMaiorCompra',
+                url: api.base_url + '/vendasPorVendedor',
                 data: data
             }
             const resposta = await axios(config);
             var dados = [];
             if (resposta.status == 200) {
                 setDataTable(resposta.data);
-                console.log(resposta.data)
                 resposta.data.map((v) => {
-                    dados.push([v.CLIENTE, v.VALOR]);
+                    dados.push([v.VENDEDOR, v.VLRLIQUIDO]);
                 });
 
-                dados.unshift(['Cliente', 'Valor']);
+                dados.unshift(['Vendedor', 'Valor']);
                 setLoad(true);
                 setDataGrafico(dados)
                 toast.info('Dados carregado com sucesso');
@@ -76,7 +74,7 @@ function ClienteMaiorCompra() {
 
         } catch (error) {
             var semDados = [
-                ['Cliente', 'Valor']
+                ['Vendedor', 'Valor']
                 ['Sem dados', 0.00],
             ]
             setDataGrafico(semDados);
@@ -116,10 +114,6 @@ function ClienteMaiorCompra() {
                                                 <label class="form-label">Data Final</label>
                                                 <input type="date" class="form-control" name="dataFinal" onChange={(e) => { setDataFinal(e.target.value) }} required />
                                             </div>
-                                            <div className="col">
-                                                <label class="form-label">Trazer quandos registros?</label>
-                                                <input type="number" class="form-control" placeholder='Trazer quandos registros? ' required name="qtde" onChange={(e) => { setRegistros(e.target.value) }} />
-                                            </div>
                                         </div><br />
                                         <button type="submit" class="btn btn-primary">Carregar</button>
                                     </form>
@@ -140,36 +134,38 @@ function ClienteMaiorCompra() {
                                         data={dataGrafico}
                                         options={options2}
                                     />
-                               
-                        </div><br />
-                        <h2>Clientes com maior compra</h2>
-                        <div className="table-responsive">
-                            <table className="table table-striped table-sm">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        dataTable.map((v) => (
+
+                                </div><br />
+                                <h2>Vendas por Vendedor</h2>
+                                <div className="table-responsive">
+                                    <table className="table table-striped table-sm">
+                                        <thead>
                                             <tr>
-                                                <td>{v.CLIENTE}</td>
-                                                <td>R$ {v.VALOR}</td>
+                                                <th scope="col">VENDEDOR</th>
+                                                <th scope="col">VALOR</th>
+                                                <th scope="col">DESCONTO</th>
                                             </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                dataTable.map((v) => (
+                                                    <tr>
+                                                        <td>{v.VENDEDOR}</td>
+                                                        <td>R$ {v.VLRLIQUIDO}</td>
+                                                        <td>R$ {v.DESCONTO}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </main>
                         </div>
-                    </main>
-                </div>
-            </div>
+                    </div>
                 </div >
             </>
         )
     }
 
 }
-export default ClienteMaiorCompra;
+export default VendasPorVendedor;

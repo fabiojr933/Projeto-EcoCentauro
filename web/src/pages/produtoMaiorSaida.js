@@ -8,16 +8,16 @@ import { toast } from 'react-toastify';
 
 
 export const options = {
-    title: "Cliente maior compra",
+    title: "Produto maior saida",
     is3D: true,
 };
 export const options2 = {
     chart: {
-        title: "Cliente maior compra",
+        title: "Produto maior saida",
     },
 };
 
-function ClienteMaiorCompra() {
+function ProdutoMaiorSaida() {
 
     const [dataInicial, setDataInicial] = useState(null);
     const [dataFinal, setDataFinal] = useState(null);
@@ -31,7 +31,7 @@ function ClienteMaiorCompra() {
     useEffect(() => {
         async function load() {
             var semDados = [
-                ['Cliente', 'Valor']
+                ['Produto', 'quantidade']
                 ['Sem dados', 0.00],
             ]
             setDataGrafico(semDados);
@@ -56,19 +56,18 @@ function ClienteMaiorCompra() {
             }
             var config = {
                 method: 'POST',
-                url: api.base_url + '/clienteMaiorCompra',
+                url: api.base_url + '/produtoMaiorSaida',
                 data: data
             }
             const resposta = await axios(config);
             var dados = [];
             if (resposta.status == 200) {
                 setDataTable(resposta.data);
-                console.log(resposta.data)
                 resposta.data.map((v) => {
-                    dados.push([v.CLIENTE, v.VALOR]);
+                    dados.push([v.PRODUTO, v.QUANTIDADE]);
                 });
 
-                dados.unshift(['Cliente', 'Valor']);
+                dados.unshift(['Produto', 'Quantidade']);
                 setLoad(true);
                 setDataGrafico(dados)
                 toast.info('Dados carregado com sucesso');
@@ -76,7 +75,7 @@ function ClienteMaiorCompra() {
 
         } catch (error) {
             var semDados = [
-                ['Cliente', 'Valor']
+                ['Produto', 'Valor']
                 ['Sem dados', 0.00],
             ]
             setDataGrafico(semDados);
@@ -140,36 +139,42 @@ function ClienteMaiorCompra() {
                                         data={dataGrafico}
                                         options={options2}
                                     />
-                               
-                        </div><br />
-                        <h2>Clientes com maior compra</h2>
-                        <div className="table-responsive">
-                            <table className="table table-striped table-sm">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        dataTable.map((v) => (
+
+                                </div><br />
+                                <h2>Clientes com maior compra</h2>
+                                <div className="table-responsive">
+                                    <table className="table table-striped table-sm">
+                                        <thead>
                                             <tr>
-                                                <td>{v.CLIENTE}</td>
-                                                <td>R$ {v.VALOR}</td>
+                                                <th scope="col">CODIGO</th>
+                                                <th scope="col">PRODUTO</th>
+                                                <th scope="col">QUANTIDADE</th>
+                                                <th scope="col">VALOR</th>
+                                                <th scope="col">LUCRO</th>
                                             </tr>
-                                        ))
-                                    }
-                                </tbody>
-                            </table>
+                                        </thead>
+                                        <tbody>
+                                            {
+                                                dataTable.map((v) => (
+                                                    <tr>
+                                                        <td>{v.CODIGO}</td>
+                                                        <td>{v.PRODUTO}</td>
+                                                        <td>{v.QUANTIDADE}</td>
+                                                        <td>R$ {v.VALOR}</td>
+                                                        <td>R$ {v.LUCRO}</td>
+                                                    </tr>
+                                                ))
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </main>
                         </div>
-                    </main>
-                </div>
-            </div>
+                    </div>
                 </div >
             </>
         )
     }
 
 }
-export default ClienteMaiorCompra;
+export default ProdutoMaiorSaida;

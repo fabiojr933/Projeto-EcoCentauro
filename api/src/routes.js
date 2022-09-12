@@ -12,7 +12,7 @@ route.get('/empresa', Login.listaEmpresa);
 route.post('/clienteMaiorCompra', Grafico.clienteMaiorCompra);
 route.post('/produtoMaiorSaida', Grafico.produtoMaiorSaida);
 route.post('/vendasPorVendedor', Grafico.vendasPorVendedor);
-
+route.post('/listaCentroCusto', Grafico.listaCentroCusto);
 
 
 module.exports = route;

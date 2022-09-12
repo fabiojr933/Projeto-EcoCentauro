@@ -1,4 +1,4 @@
-import { NavLink  } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 function navbar() {
 
@@ -7,34 +7,34 @@ function navbar() {
             <div className="position-sticky pt-3 sidebar-sticky">
                 <ul className="nav flex-column">
                     <li className="nav-item">
-                        <a className="nav-link active" aria-current="page" href="#">
+                        <NavLink className="nav-link active" aria-current="page" to="/">
                             <span data-feather="home" className="align-text-bottom"></span>
                             Dashboard
-                        </a>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <NavLink  className="nav-link"to="/ClienteMaiorCompra">
+                        <NavLink className="nav-link" to="/ClienteMaiorCompra">
                             <span data-feather="file" className="align-text-bottom"></span>
                             Cliente com Maior Compra
                         </NavLink >
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
+                        <NavLink className="nav-link" to='/ProdutoMaiorSaida'>
                             <span data-feather="shopping-cart" className="align-text-bottom"></span>
-                            Products
-                        </a>
+                            Produto com Maior Saida
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
+                        <NavLink className="nav-link" to='/VendasPorVendedor'>
                             <span data-feather="users" className="align-text-bottom"></span>
-                            Customers
-                        </a>
+                            Vendas Por Vendedor
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">
+                        <NavLink className="nav-link" to='/ListaCentroCusto'>
                             <span data-feather="bar-chart-2" className="align-text-bottom"></span>
-                            Reports
-                        </a>
+                            Fluxo financeiro
+                        </NavLink>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#">

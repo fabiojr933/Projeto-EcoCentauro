@@ -1,5 +1,5 @@
 const Config = {
-    database: "C:\\ecosis\\dados\\CasaForte\\ecodados.eco",
+    database: "C:\\ecosis\\dados\\ecodados.eco",
     host: '127.0.0.1',
     port: 3050,
     user: 'SYSDBA',
